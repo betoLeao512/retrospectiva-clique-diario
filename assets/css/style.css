@@ -135,9 +135,16 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   overflow: hidden;
   background-color: var(--preto);
-  background-image: url('../images/hero-bg.jpg');
-  background-size: cover;
-  background-position: center;
+}
+
+/* --- HERO CANVAS (dissolve por luminosidade) --------------- */
+#heroCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
 }
 .hero-overlay {
   position: absolute; inset: 0;
@@ -149,8 +156,8 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-pretitle {
   font-family: 'Cinzel', serif;
-  font-size: 10px; letter-spacing: 0.3em;
-  color: var(--ambar); text-transform: uppercase; margin-bottom: 1.5rem;
+  font-size: 14px; letter-spacing: 0.3em;
+  color: var(--branco-osso); text-transform: uppercase; margin-bottom: 1.5rem;
 }
 .hero-title {
   font-family: 'Cormorant Garamond', serif;
@@ -474,4 +481,39 @@ a { color: inherit; text-decoration: none; }
   .hero-title { font-size: 3rem; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .awards-inner { justify-content: flex-start; }
+}
+
+/* --- DISSOLVE MODE BUTTONS -------------------------------- */
+#dissolve-mode {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  z-index: 9999;
+  pointer-events: none;
+}
+.dissolve-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--texto-suave);
+  background: rgba(10,10,8,0.6);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(200,146,42,0.2);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.25s;
+  pointer-events: all;
+}
+.dissolve-btn:hover {
+  border-color: var(--ambar);
+  color: var(--ambar-claro);
+}
+.dissolve-btn.active {
+  border-color: var(--ambar);
+  color: var(--ambar);
 }
