@@ -1,0 +1,277 @@
+{
+  "galerias": [
+    {
+      "id": "memorias-de-gigantes",
+      "titulo": "Memórias de Gigantes",
+      "patrocinador": null,
+      "fotos": [
+        {
+          "arquivo": "foto-01.jpg",
+          "titulo": "Entre Redes e Gigantes",
+          "audio": "assets/audio/voz/g1-01.mp3"
+        },
+        {
+          "arquivo": "foto-02.jpg",
+          "titulo": "Asas do Ofício",
+          "audio": "assets/audio/voz/g1-02.mp3"
+        },
+        {
+          "arquivo": "foto-03.jpg",
+          "titulo": "Entre Redes e Gigantes",
+          "audio": "assets/audio/voz/g1-03.mp3"
+        },
+        {
+          "arquivo": "foto-04.jpg",
+          "titulo": "Entre o Ritmo e a Calma",
+          "audio": "assets/audio/voz/g1-04.mp3"
+        },
+        {
+          "arquivo": "foto-05.jpg",
+          "titulo": "Cerimônia de Chegada",
+          "audio": "assets/audio/voz/g1-05.mp3"
+        },
+        {
+          "arquivo": "foto-06.jpg",
+          "titulo": "Diálogo de Gigantes",
+          "audio": "assets/audio/voz/g1-06.mp3"
+        },
+        {
+          "arquivo": "foto-07.jpg",
+          "titulo": "Rota de Aço",
+          "audio": "assets/audio/voz/g1-07.mp3"
+        },
+        {
+          "arquivo": "foto-08.jpg",
+          "titulo": "Rota Dourada",
+          "audio": "assets/audio/voz/g1-08.mp3"
+        },
+        {
+          "arquivo": "foto-09.jpg",
+          "titulo": "Cidade Entre Nuvens",
+          "audio": "assets/audio/voz/g1-09.mp3"
+        },
+        {
+          "arquivo": "foto-10.jpg",
+          "titulo": "Partida Dourada",
+          "audio": "assets/audio/voz/g1-10.mp3"
+        },
+        {
+          "arquivo": "foto-11.jpg",
+          "titulo": "Caminho que Encontra o Mar",
+          "audio": "assets/audio/voz/g1-11.mp3"
+        },
+        {
+          "arquivo": "foto-12.jpg",
+          "titulo": "Cidade que Nasce",
+          "audio": "assets/audio/voz/g1-12.mp3"
+        }
+      ]
+    },
+    {
+      "id": "guerreiros-do-mar",
+      "titulo": "Guerreiros do Mar",
+      "patrocinador": null,
+      "fotos": [
+        {
+          "arquivo": "foto-13.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-14.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-15.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-16.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-17.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-18.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-19.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-20.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-21.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-22.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-23.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-24.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        }
+      ]
+    },
+    {
+      "id": "bico-do-papagaio",
+      "titulo": "No Bico do Papagaio",
+      "patrocinador": null,
+      "fotos": [
+        {
+          "arquivo": "foto-25.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-26.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-27.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-28.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-29.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-30.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-31.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-32.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-33.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-34.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-35.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-36.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        }
+      ]
+    },
+    {
+      "id": "paisagens-peixeiras",
+      "titulo": "Paisagens Peixeiras",
+      "patrocinador": null,
+      "fotos": [
+        {
+          "arquivo": "foto-37.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-38.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-39.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-40.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-41.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-42.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-43.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-44.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-45.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-46.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-47.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-48.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        },
+        {
+          "arquivo": "foto-49.jpg",
+          "titulo": "TÍTULO PENDENTE",
+          "audio": null
+        }
+      ]
+    }
+  ]
+}
