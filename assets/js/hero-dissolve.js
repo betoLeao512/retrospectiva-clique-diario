@@ -50,6 +50,32 @@
       document.getElementById('btnClaro').classList.add('active');
       document.getElementById('btnEscuro').classList.remove('active');
     });
+
+    alinharComTexto();
+    window.addEventListener('resize', alinharComTexto);
+  }
+
+  function alinharComTexto() {
+    const subtitle = document.querySelector('.hero-subtitle');
+    const dm = document.getElementById('dissolve-mode');
+    const btnEscuro = document.getElementById('btnEscuro');
+    const btnClaro = document.getElementById('btnClaro');
+    if (!subtitle || !dm || !btnEscuro || !btnClaro) return;
+    const range = document.createRange();
+    const textNode = subtitle.firstChild;
+    if (!textNode) return;
+    range.selectNodeContents(textNode);
+    const textRect = range.getBoundingClientRect();
+    const dmRect = dm.getBoundingClientRect();
+    const btnRect = btnEscuro.getBoundingClientRect();
+    const currentOffset = btnRect.left - dmRect.left;
+    const desiredOffset = textRect.left - dmRect.left;
+    btnEscuro.style.marginLeft = (desiredOffset - currentOffset) + 'px';
+
+    const claroRect = btnClaro.getBoundingClientRect();
+    const currentRightOffset = dmRect.right - claroRect.right;
+    const desiredRightOffset = dmRect.right - textRect.right;
+    btnClaro.style.marginRight = (desiredRightOffset - currentRightOffset) + 'px';
   }
 
   // --- RESIZE ----------------------------------------------

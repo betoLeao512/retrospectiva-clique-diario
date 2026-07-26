@@ -7,7 +7,7 @@
       "fotos": [
         {
           "arquivo": "foto-01.jpg",
-          "titulo": "Entre Redes e Gigantes",
+          "titulo": "O Pescador e os Colossos",
           "audio": "assets/audio/voz/g1-01.mp3"
         },
         {
@@ -17,7 +17,7 @@
         },
         {
           "arquivo": "foto-03.jpg",
-          "titulo": "Entre Redes e Gigantes",
+          "titulo": "Duas Escalas de Trabalho",
           "audio": "assets/audio/voz/g1-03.mp3"
         },
         {
@@ -74,129 +74,129 @@
       "fotos": [
         {
           "arquivo": "foto-13.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Dois Gestos, Mesma Maré",
           "audio": null
         },
         {
           "arquivo": "foto-14.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "O Menino e o Lance da Tarde",
           "audio": null
         },
         {
           "arquivo": "foto-15.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "O Poente Sobre a Serra",
           "audio": null
         },
         {
           "arquivo": "foto-16.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Nuvens Testemunham o Lance",
           "audio": null
         },
         {
           "arquivo": "foto-17.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Mãos que Recolhem o Dia",
           "audio": null
         },
         {
           "arquivo": "foto-18.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Silhueta Contra o Sol da Manhã",
           "audio": null
         },
         {
           "arquivo": "foto-19.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Equilíbrio Sobre o Pneu Molhado",
           "audio": null
         },
         {
           "arquivo": "foto-20.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Mastros Adormecidos ao Amanhecer",
           "audio": null
         },
         {
           "arquivo": "foto-21.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Contornos Dourados ao Entardecer",
           "audio": null
         },
         {
           "arquivo": "foto-22.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Fios Verdes no Céu Rosa",
           "audio": null
         },
         {
           "arquivo": "foto-23.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Um Raio Entre as Mãos",
           "audio": null
         },
         {
           "arquivo": "foto-24.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Canoas Descansam Antes da Faina",
           "audio": null
         }
       ]
     },
     {
       "id": "bico-do-papagaio",
-      "titulo": "No Bico do Papagaio",
+      "titulo": "Sentinela de Pedra",
       "patrocinador": null,
       "fotos": [
         {
           "arquivo": "foto-25.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Baía Escondida Entre as Folhas",
           "audio": null
         },
         {
           "arquivo": "foto-26.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "A Fresta que Revela o Mar",
           "audio": null
         },
         {
           "arquivo": "foto-27.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "O Perfil que Vigia a Baía",
           "audio": null
         },
         {
           "arquivo": "foto-28.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Trilhos de Luz aos Pés da Sentinela",
           "audio": null
         },
         {
           "arquivo": "foto-29.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "A Vila que Dorme à Sombra da Pedra",
           "audio": null
         },
         {
           "arquivo": "foto-30.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Ondas que Beijam um Rosto Antigo",
           "audio": null
         },
         {
           "arquivo": "foto-31.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "O Entardecer que a Rocha Testemunha",
           "audio": null
         },
         {
           "arquivo": "foto-32.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "A Estrada Abraça o Turquesa",
           "audio": null
         },
         {
           "arquivo": "foto-33.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "O Guardião Vê Quem Parte",
           "audio": null
         },
         {
           "arquivo": "foto-34.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Luz que Escorre Entre as Árvores",
           "audio": null
         },
         {
           "arquivo": "foto-35.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Sombra que Guarda o Fim do Dia",
           "audio": null
         },
         {
           "arquivo": "foto-36.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Onde o Caminho Encontra a Rocha",
           "audio": null
         }
       ]
@@ -208,67 +208,62 @@
       "fotos": [
         {
           "arquivo": "foto-37.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "A Cidade Espiada Entre Folhas",
           "audio": null
         },
         {
           "arquivo": "foto-38.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Onde a Floresta Escreve Itajaí",
           "audio": null
         },
         {
           "arquivo": "foto-39.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "A Baía Veste o Crepúsculo",
           "audio": null
         },
         {
           "arquivo": "foto-40.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Espuma que Acende o Horizonte",
           "audio": null
         },
         {
           "arquivo": "foto-41.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Um Céu em Chamas Sobre a Ilha",
           "audio": null
         },
         {
           "arquivo": "foto-42.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "A Cruz que Recebe o Sol",
           "audio": null
         },
         {
           "arquivo": "foto-43.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "O Farol Que Numera as Ondas",
           "audio": null
         },
         {
           "arquivo": "foto-44.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "O Rio Que Se Rende ao Mar",
           "audio": null
         },
         {
           "arquivo": "foto-45.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Sino e Maré na Mesma Enseada",
           "audio": null
         },
         {
           "arquivo": "foto-46.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Uma Pose Entre Mastros e Silêncio",
           "audio": null
         },
         {
           "arquivo": "foto-47.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Luz Sagrada Entre as Colunas",
           "audio": null
         },
         {
           "arquivo": "foto-48.jpg",
-          "titulo": "TÍTULO PENDENTE",
-          "audio": null
-        },
-        {
-          "arquivo": "foto-49.jpg",
-          "titulo": "TÍTULO PENDENTE",
+          "titulo": "Luzes Que Se Repetem na Água",
           "audio": null
         }
       ]

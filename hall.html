@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hall da Exposição — Retrospectiva Clique Diário</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<style>
+  /* --- HALL DA EXPOSIÇÃO ------------------------------------ */
+  .hall-header { padding-top: calc(var(--navbar-h) + 3rem); padding-bottom: 1.5rem; }
+  .hall-section { padding: 1rem 1.5rem 3rem; background: var(--preto); }
+  .hall-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 2.5rem;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .gallery-card {
+    position: relative;
+    background: var(--carbon);
+    border: 1px solid rgba(200,146,42,0.14);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(36px);
+    filter: brightness(0.15) saturate(0.7);
+    transition: opacity 1.1s cubic-bezier(.2,.7,.2,1),
+                transform 1.1s cubic-bezier(.2,.7,.2,1),
+                filter 1.3s cubic-bezier(.2,.7,.2,1);
+  }
+  .gallery-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+    filter: brightness(1) saturate(1);
+  }
+
+  .gallery-card-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #0e0e0c;
+  }
+  .gallery-card-media img {
+    transition: transform 1.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .gallery-card:hover .gallery-card-media img { transform: scale(1.045); }
+
+  .gallery-card-media::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,8,0.75) 0%, rgba(10,10,8,0) 45%);
+  }
+
+  .gallery-card-number {
+    position: absolute; top: 1.25rem; left: 1.25rem; z-index: 2;
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.2em; color: var(--branco-osso);
+    text-transform: uppercase;
+    border: 1px solid rgba(240,235,224,0.35);
+    padding: 0.35rem 0.75rem;
+    background: rgba(10,10,8,0.35);
+    backdrop-filter: blur(3px);
+  }
+
+  .gallery-card-body {
+    position: relative;
+    padding: 2rem 2rem 2.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .gallery-card-tag {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.2em; color: var(--ambar);
+    text-transform: uppercase; display: block; margin-bottom: 0.6rem;
+  }
+  .gallery-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.1rem, 3.4vw, 2.9rem);
+    font-weight: 300; font-style: italic;
+    color: var(--branco-osso); line-height: 1.08; margin-bottom: 0.75rem;
+  }
+  .gallery-card-desc {
+    font-family: 'Raleway', sans-serif; font-size: 0.92rem;
+    color: var(--texto); max-width: 480px; margin-bottom: 1.5rem;
+    line-height: 1.75;
+  }
+  .gallery-card-meta {
+    display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.75rem;
+  }
+  .gallery-card-meta span {
+    font-family: 'Raleway', sans-serif; font-size: 0.8rem;
+    color: var(--texto-suave); font-style: italic;
+  }
+  .gallery-card-meta span:not(:last-child) {
+    padding-right: 1.5rem; border-right: 1px solid rgba(200,146,42,0.2);
+  }
+
+  .gallery-card-footer {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    margin-top: auto;
+  }
+  .gallery-card-sponsor-banner {
+    position: absolute; top: 0; left: 0; width: 100%; height: 40px; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(10,10,8,0.72);
+    font-family: 'Cinzel', serif; font-size: 11px;
+    letter-spacing: 2px; color: #E8B96A; text-transform: uppercase;
+  }
+  .gallery-card-footer .btn-outline-amber {
+    background: var(--ambar); color: #0A0A08; border: none;
+    padding: 10px 24px;
+  }
+  .gallery-card-footer .btn-outline-amber:hover { background: var(--ambar-claro); color: #0A0A08; }
+
+  @media (max-width: 575px) {
+    .gallery-card-body { padding: 1.5rem 1.25rem 1.75rem; }
+    .gallery-card-desc { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand brand-logo" href="index.html">
+        <span class="brand-tag">CLIQUE DIÁRIO</span>
+        <span class="brand-name">Retrospectiva</span>
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav gap-4">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="artista.html">O Artista</a></li>
+          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="hall-header page-header" data-screen-label="Hall da Exposição">
+    <h1 class="page-header-title">Hall da Exposição</h1>
+    <div class="amber-bar amber-bar--center"></div>
+    <p class="page-header-sub">Escolha uma galeria para entrar na história.</p>
+  </header>
+
+  <!-- GALLERY SELECTION -->
+  <section class="hall-section">
+    <div class="hall-grid" id="hallGrid">
+
+      <a class="gallery-card" href="galeria.html" data-gallery-card>
+        <div class="gallery-card-media">
+          <img src="assets/images/foto-08.jpg" alt="Memórias de Gigantes — navio cargueiro cruzando o Porto de Itajaí ao entardecer" loading="lazy" />
+          <div class="gallery-card-sponsor-banner">Apoio: JBS</div>
+        </div>
+        <div class="gallery-card-body">
+          <h2 class="gallery-card-title">Memórias de Gigantes</h2>
+          <p class="gallery-card-desc">
+            Os navios que cruzam o Porto de Itajaí, retratados na escala e no
+            silêncio que só a maré permite ver.
+          </p>
+          <div class="gallery-card-footer">
+            <span class="btn-outline-amber">Entrar na Galeria</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="gallery-card" href="galeria.html" data-gallery-card>
+        <div class="gallery-card-media">
+          <img src="assets/images/foto-15.jpg" alt="Guerreiros do Mar — pescador lança a rede ao entardecer, silhueta contra o horizonte de Itajaí" loading="lazy" />
+          <div class="gallery-card-sponsor-banner">Apoio: Colônia de Pescadores</div>
+        </div>
+        <div class="gallery-card-body">
+          <h2 class="gallery-card-title">Guerreiros do Mar</h2>
+          <p class="gallery-card-desc">
+            Homens, redes e rotina — o retrato de quem sustenta a cidade com
+            as próprias mãos, dia após dia.
+          </p>
+          <div class="gallery-card-footer">
+            <span class="btn-outline-amber">Entrar na Galeria</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="gallery-card" href="galeria.html" data-gallery-card>
+        <div class="gallery-card-media">
+          <img src="assets/images/foto-30.jpg" alt="Sentinela de Pedra — formação rochosa observando o mar no litoral de Itajaí" loading="lazy" />
+          <div class="gallery-card-sponsor-banner">Apoio: UNIVALI</div>
+        </div>
+        <div class="gallery-card-body">
+          <h2 class="gallery-card-title">Sentinela de Pedra</h2>
+          <p class="gallery-card-desc">
+            Uma pedra que observa o mar há gerações, guardando o segredo de
+            quem só o silêncio consegue ouvir.
+          </p>
+          <div class="gallery-card-footer">
+            <span class="btn-outline-amber">Entrar na Galeria</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="gallery-card" href="galeria.html" data-gallery-card>
+        <div class="gallery-card-media">
+          <img src="assets/images/foto-40.jpg" alt="Paisagens Peixeiras — marina ao entardecer no horizonte de Itajaí" loading="lazy" />
+          <div class="gallery-card-sponsor-banner">Apoio: Secretaria de Urbanismo de Itajaí</div>
+        </div>
+        <div class="gallery-card-body">
+          <h2 class="gallery-card-title">Paisagens Peixeiras</h2>
+          <p class="gallery-card-desc">
+            Onde o céu encontra o mar e o horizonte parece não ter fim — um
+            convite para respirar.
+          </p>
+          <div class="gallery-card-footer">
+            <span class="btn-outline-amber">Entrar na Galeria</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="gallery-card" href="galeria-ia.html" data-gallery-card>
+        <div class="gallery-card-media">
+          <img src="assets/images/capa-galeria-ia.jpg" alt="Galer.iA — experiência imersiva de poesia gerada por inteligência artificial" loading="lazy" />
+          <div class="gallery-card-sponsor-banner">Apoio: Intelbras</div>
+        </div>
+        <div class="gallery-card-body">
+          <span class="gallery-card-tag">Experiência Imersiva</span>
+          <h2 class="gallery-card-title">Galer.iA</h2>
+          <p class="gallery-card-desc">
+            Escolha uma foto, revele o que ela desperta em você, e deixe que
+            a inteligência artificial escreva, na voz do Alfa, o poema que
+            só o seu olhar poderia inspirar.
+          </p>
+          <div class="gallery-card-meta">
+            <span>· Deixe o i.Alfa vai criar um poema original pra você!</span>
+          </div>
+          <div class="gallery-card-footer">
+            <span class="btn-outline-amber">Entrar na Galeria</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <p class="footer-brand">Retrospectiva <em>Clique Diário</em></p>
+          <p class="footer-sub">Alfa Bile · Itajaí, SC · 2026</p>
+        </div>
+        <div class="footer-links">
+          <a href="https://instagram.com/alfabile" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://facebook.com/alfabilefotografia" target="_blank" rel="noopener">Facebook</a>
+        </div>
+      </div>
+      <p class="footer-copy">· UNIVALI ADS · 2026</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // --- NAVBAR (mesmo comportamento do main.js) ---
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          navbar.style.background = 'rgba(17,17,16,0.98)';
+          navbar.style.backdropFilter = 'blur(8px)';
+        } else {
+          navbar.style.background = '#111110';
+          navbar.style.backdropFilter = 'none';
+        }
+      });
+    }
+
+    // --- REVELAÇÃO: cards emergem da escuridão, um a um ---
+    const cards = Array.from(document.querySelectorAll('[data-gallery-card]'));
+    const STAGGER_MS = 260;
+
+    function revealAll() {
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('revealed'), i * STAGGER_MS);
+      });
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          revealAll();
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.15 });
+
+    if (cards.length) observer.observe(document.getElementById('hallGrid'));
+  </script>
+</body>
+</html>
