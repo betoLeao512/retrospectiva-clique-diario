@@ -38,7 +38,7 @@ Fluxo de navegação: Hero → Hall da Exposição → Galeria temática **ou** 
 ### Navegação contextual "voltar" (`?voltar=`)
 Convenção: `artista.html` e `contato.html` leem o parâmetro `?voltar=<id-da-galeria>` da URL. Se o valor corresponder a um id válido (`memorias-de-gigantes`, `guerreiros-do-mar`, `bico-do-papagaio`, `paisagens-peixeiras`), a navbar mostra "← Voltar para [Nome de Exibição]" apontando para `galeria.html?id=<id>`; caso contrário, o item fica oculto (evita duplicar com o "HALL DA EXPOSIÇÃO" fixo). `galeria.html` hoje passa `?voltar=memorias-de-gigantes` fixo nos links de O Artista/Contato, por ser a única galeria estática ainda.
 
-⚠️ **Não implementado de fato:** `artista.html` e `contato.html` carregam `assets/js/voltar-contextual.js`, mas esse arquivo não existe no repositório — o item de nav fica sempre oculto (`display:none`) na prática. Ver Pendências.
+`assets/js/voltar-contextual.js` existe e implementa essa lógica (testado localmente).
 
 ### index.html — notas técnicas
 - Hero: fotos de fundo em `assets/images/hero/foto1-6.jpg`, dissolvidas via `assets/js/hero-dissolve.js` (canvas). Overlay escurecido (~72–97% de opacidade) e `text-shadow` em pretitle/título/subtítulo/botões para garantir contraste sobre as fotos.
@@ -47,8 +47,6 @@ Convenção: `artista.html` e `contato.html` leem o parâmetro `?voltar=<id-da-g
 - CTA principal: texto atualizado para **"Entrar no Hall da Exposição"** (`btn-amber`). Seção "i.Alfa" (teaser) removida do `index.html` — não pertence a esta página.
 - Subtítulo do hero: "O cotidiano visto com olhos que não se contentam em apenas olhar."
 - Seção "Sobre a Exposição": 1 coluna (`col-lg-8`, texto abaixo do título) — versão de 2 colunas (`col-lg-5` + `col-lg-6 offset-lg-1`) foi abandonada por quebrar o alinhamento do botão em telas largas. Padding vertical reduzido (7rem → 4rem). Parágrafo com `text-align: justify` (sem `text-align-last: justify`), reescrito na última sessão em torno de "instantes que pediram para permanecer" e "luz, movimento e silêncio".
-
-⚠️ **Link quebrado:** o botão do CTA principal (`id="btnHall"`) ainda tem `href="Hall da Exposição.html"` (nome antigo) em vez de `hall.html` — vai dar 404 no GitHub Pages. Ver Pendências.
 
 ### artista.html — notas técnicas
 - Foto: `assets/images/alfa-bile.jpg` (substituiu o `.png` anterior).
@@ -68,8 +66,6 @@ Convenção: `artista.html` e `contato.html` leem o parâmetro `?voltar=<id-da-g
 - Copy: pretitle do header "FALE COM O ARTISTA" → "FALE COM O ALFA"; footer "Projeto extensionista HOW5 · UNIVALI ADS · 2026" → "UNIVALI ADS · 2026".
 - `.contact-section` padding vertical reduzido (top 5rem → 2rem; bottom 7rem → 3rem).
 
-⚠️ **Bugs conhecidos no nav:** o link "Hall da Exposição" aponta para `galeria.html`, não `hall.html`; há também um `<li class="nav-item">` vazio sobrando na lista de navegação. Ver Pendências.
-
 ### Hall da Exposição (`hall.html`)
 5 cards fixos (Memórias de Gigantes, Guerreiros do Mar, Sentinela de Pedra, Paisagens Peixeiras, Galer.iA), escritos à mão — não dinâmico, por ora. Animação "Revelação": cards emergem da escuridão um a um, funciona em touch/mobile. Cada card (exceto Galer.iA) é um `<a href="galeria.html">` simples (ainda sem `?id=...` — depende da migração dinâmica); o card da Galer.iA aponta para `galeria-ia.html`. Patrocinador aparece como banner sobreposto no topo da foto de cada card.
 
@@ -84,7 +80,7 @@ Convenção: `artista.html` e `contato.html` leem o parâmetro `?voltar=<id-da-g
 
 **Padrão visual dos cards:** banner de apoio no topo da foto (`rgba(10,10,8,0.72)`, texto "APOIO: [nome]" em âmbar claro `#E8B96A`); botão "ENTRAR NA GALERIA" preenchimento âmbar sólido, texto `#0A0A08`, sem borda. Sem selo "GALERIA 0N" nem tags de contagem de fotos/áudio.
 
-**Card da Galer.iA:** ver `docs/galer-ia.md` para o texto definitivo e o estado da correção pendente na linha secundária.
+**Card da Galer.iA:** ver `docs/galer-ia.md` para o texto definitivo.
 
 **Exceção em vigor — regra "trailer, não spoiler":** as capas dos 4 cards temáticos (`foto-08`, `foto-15`, `foto-30`, `foto-40`) pertencem às próprias galerias que representam — não há fotos de `banco-reserva/` qualificadas no momento. Aceito como está por ora.
 
@@ -149,10 +145,6 @@ Botões `.btn-amber` (classe global, afeta o site todo): peso de fonte 700, text
 - Confirmar com o Alfa se o nome "Sentinela de Pedra" (trocado de "No Bico do Papagaio" por decisão do Leao) é aprovado.
 - Possíveis fotos repetidas entre as 37 fotos novas — Leao vai revisar com o Alfa.
 - Confirmar se a foto de capa da Galer.iA (`capa-galeria-ia.jpg`) é definitiva ou placeholder.
-- Implementar `assets/js/voltar-contextual.js` — referenciado em `artista.html` e `contato.html`, mas o arquivo não existe; a navegação "voltar" contextual está sem efeito prático.
-- Corrigir `href` do link "Hall da Exposição" em `contato.html` (aponta para `galeria.html`, deveria ser `hall.html`) e remover o `<li class="nav-item">` vazio.
-- Corrigir `href` do botão CTA principal em `index.html` (`href="Hall da Exposição.html"` → `hall.html`).
-- Corrigir a linha secundária do card da Galer.iA em `hall.html` (erro de digitação "Deixe o i.Alfa vai criar...") — o parágrafo principal já está com o texto definitivo.
 - Corrigir breakpoint responsivo de `artista.html`: a foto não deveria usar stretch quando as colunas empilham (mobile) — precisa de `aspect-ratio` fixo nesse caso.
 - Considerar aplicar a assinatura do Alfa também em `index.html` (decisão ainda não tomada).
 - Confirmar se mais alguma página precisa do nav contextual "voltar" além de `artista.html`/`contato.html`/`galeria.html`.
