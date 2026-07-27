@@ -29,14 +29,14 @@ Fluxo de navegação: Hero → Hall da Exposição → Galeria temática **ou** 
 |---|---|---|
 | Início / Hero | `index.html` | estático |
 | Hall da Exposição | `hall.html` | estático, 5 cards escritos à mão |
-| Galerias temáticas | `galeria.html?id=...` | estático por ora (migração dinâmica pendente) |
+| Galerias temáticas | `galeria.html?id=...` | dinâmico, lê `galerias.json` via `fetch()` |
 | Galer.iA | `galeria-ia.html` | cópia independente de `galeria.html`, sem lógica própria ainda (ver `docs/galer-ia.md`) |
 | Mural | `mural.html` | dinâmico, lê Firestore |
 | Sobre o Artista | `artista.html` | estático |
 | Contato | `contato.html` | estático |
 
 ### Navegação contextual "voltar" (`?voltar=`)
-Convenção: `artista.html` e `contato.html` leem o parâmetro `?voltar=<id-da-galeria>` da URL. Se o valor corresponder a um id válido (`memorias-de-gigantes`, `guerreiros-do-mar`, `bico-do-papagaio`, `paisagens-peixeiras`), a navbar mostra "← Voltar para [Nome de Exibição]" apontando para `galeria.html?id=<id>`; caso contrário, o item fica oculto (evita duplicar com o "HALL DA EXPOSIÇÃO" fixo). `galeria.html` hoje passa `?voltar=memorias-de-gigantes` fixo nos links de O Artista/Contato, por ser a única galeria estática ainda.
+Convenção: `artista.html` e `contato.html` leem o parâmetro `?voltar=<id-da-galeria>` da URL. Se o valor corresponder a um id válido (`memorias-de-gigantes`, `guerreiros-do-mar`, `bico-do-papagaio`, `paisagens-peixeiras`), a navbar mostra "← Voltar para [Nome de Exibição]" apontando para `galeria.html?id=<id>`; caso contrário, o item fica oculto (evita duplicar com o "HALL DA EXPOSIÇÃO" fixo). `galeria.html` hoje passa `?voltar=<id-da-galeria-atual>` dinamicamente, com base no parâmetro `?id=` da própria URL.
 
 `assets/js/voltar-contextual.js` existe e implementa essa lógica (testado localmente).
 
@@ -67,7 +67,7 @@ Convenção: `artista.html` e `contato.html` leem o parâmetro `?voltar=<id-da-g
 - `.contact-section` padding vertical reduzido (top 5rem → 2rem; bottom 7rem → 3rem).
 
 ### Hall da Exposição (`hall.html`)
-5 cards fixos (Memórias de Gigantes, Guerreiros do Mar, Sentinela de Pedra, Paisagens Peixeiras, Galer.iA), escritos à mão — não dinâmico, por ora. Animação "Revelação": cards emergem da escuridão um a um, funciona em touch/mobile. Cada card (exceto Galer.iA) é um `<a href="galeria.html">` simples (ainda sem `?id=...` — depende da migração dinâmica); o card da Galer.iA aponta para `galeria-ia.html`. Patrocinador aparece como banner sobreposto no topo da foto de cada card.
+5 cards fixos (Memórias de Gigantes, Guerreiros do Mar, Sentinela de Pedra, Paisagens Peixeiras, Galer.iA), escritos à mão — não dinâmico, por ora. Animação "Revelação": cards emergem da escuridão um a um, funciona em touch/mobile. Cada card temático aponta para `galeria.html?id=<id>` (ex: `galeria.html?id=guerreiros-do-mar`); o card da Galer.iA aponta para `galeria-ia.html`. Patrocinador aparece como banner sobreposto no topo da foto de cada card.
 
 **Patrocinadores confirmados:**
 | Galeria | Patrocinador |
@@ -85,9 +85,16 @@ Convenção: `artista.html` e `contato.html` leem o parâmetro `?voltar=<id-da-g
 **Exceção em vigor — regra "trailer, não spoiler":** as capas dos 4 cards temáticos (`foto-08`, `foto-15`, `foto-30`, `foto-40`) pertencem às próprias galerias que representam — não há fotos de `banco-reserva/` qualificadas no momento. Aceito como está por ora.
 
 ### Galerias temáticas
-Estado atual: `galeria.html` segue como página **estática** (exemplo fixo com as fotos de "Memórias de Gigantes") — a migração para o template dinâmico (`galeria.html?id=...` lendo `galerias.json`) ainda não foi feita. Comportamento do clique (já implementado): expande a foto em tela cheia, toca o áudio original do Alfa automaticamente, só um botão discreto ✕ para fechar. Sem i.Alfa, sem poema — isso é exclusivo da Galer.iA.
+`galeria.html` é o template dinâmico das 4 galerias temáticas. Lê o parâmetro `?id=` da URL; se ausente ou não corresponder a nenhum id de `galerias.json`, redireciona para `hall.html`. Busca a galeria correspondente via `fetch('galerias.json')` e renderiza dinamicamente o título, o grid de fotos e o banner de patrocinador no footer (usa o campo `patrocinador` da galeria no JSON se preenchido, senão cai no mapa fixo de patrocinadores documentado acima). Os links de nav "O Artista"/"Contato" passam `?voltar=<id-da-galeria-atual>` dinamicamente. Comportamento do clique numa foto: expande em tela cheia, mostra o banner de título e toca o áudio original do Alfa quando existe (ver seção Lightbox, abaixo). Sem i.Alfa, sem poema — isso é exclusivo da Galer.iA.
 
-**Estilo do grid de fotos:** layout via **flexbox** (`flex-wrap`), não CSS Grid. Gap `16px` entre fotos, borda `1.5px solid #8A8070` em cada foto. Aplicado por ora na versão estática de `galeria.html`; **deve ser preservado ao migrar para o template dinâmico.**
+**Lógica em código:** montagem do grid a partir do JSON em `assets/js/galeria-dinamica.js` (novo, específico desta página); lógica do lightbox (abrir/fechar, banner de título, timing do áudio) centralizada em `assets/js/main.js`, compartilhada com `galeria-ia.html`.
+
+**DECISÃO — grid padronizado:** todas as fotos usam o mesmo tamanho (sem variação `span-2`) e `object-position: center` (sem crop customizado por foto). A curadoria visual variada que existia na versão estática de "Memórias de Gigantes" (fotos grandes intercaladas, enquadramentos manuais tipo `center 30%`) não foi preservada na migração — pode ser revisitada no futuro se quiserem currar visualmente cada galeria.
+
+### Lightbox (`assets/js/main.js`)
+Ao abrir uma foto (`galeria.html` dinâmico ou `galeria-ia.html` estático), o banner de título faz fade-in, fica visível por ~3.8s e depois faz fade-out (mais lento que o fade-in). O áudio (quando a foto tem um) começa a tocar 300ms antes do banner iniciar o fade-out — não no momento em que o lightbox abre. Fotos sem título (`data-title` ausente) tocam o áudio imediatamente, sem banner. Motivo da mudança: os títulos estavam gravados no início do áudio original do Alfa e foram removidos de lá, migrando para exibição visual no lightbox.
+
+**Estilo do grid de fotos:** layout via **flexbox** (`flex-wrap`), não CSS Grid. Gap `16px` entre fotos, borda `1.5px solid #8A8070` em cada foto. Aplicado em `galeria.html` (agora dinâmico) e em `galeria-ia.html` (estático).
 
 **Estrutura de dados:** ver `docs/galerias-json-schema.md` para o formato completo do `galerias.json` e como adicionar uma galeria nova.
 
@@ -152,6 +159,6 @@ Botões `.btn-amber` (classe global, afeta o site todo): peso de fonte 700, text
 - Substituir as fotos de capa do Hall (`foto-08`, `foto-15`, `foto-30`, `foto-40`) por fotos dedicadas do `banco-reserva/` quando houver opções qualificadas, para respeitar a regra "trailer, não spoiler".
 - Criação do projeto Firebase (console, chaves de API) — só o Leao pode fazer isso, não é tarefa de código.
 - Configuração do provedor de e-mail (SendGrid ou similar) para a extensão "Trigger Email" — tarefa do Leao, não de código.
-- Migração de `galeria.html` para template dinâmico (`galeria.html?id=...` lendo `galerias.json`) — arquitetura definida, implementação ainda não iniciada; inclui atualizar os cards do Hall para usar `?id=...`.
+- Clique no fundo escuro do lightbox (fora da foto) não fecha o lightbox, em nenhuma página — bug estrutural pré-existente no CSS (`.lightbox-foto` usa `object-fit: contain` mas ocupa 100% da área clicável do `.lightbox`, então `e.target === lightbox` nunca é verdadeiro na prática). Não bloqueia o uso (✕ e Escape funcionam normalmente); mapeado para correção futura.
 - Mecanismo de descadastro da lista de `contatos` — não bloqueia lançamento, mas necessário antes de qualquer campanha de divulgação futura usando essa lista.
 - Verificar se a pasta local antiga do usuário (com seu próprio `galeria-ia.html`, `galerias.json`, `banco-reserva/`, `CLAUDE.md`) ainda precisa ser sincronizada com este repositório, ou se já foi resolvido.
