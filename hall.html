@@ -126,6 +126,27 @@
     .gallery-card-body { padding: 1.5rem 1.25rem 1.75rem; }
     .gallery-card-desc { max-width: none; }
   }
+
+  /* --- GALER.iA — DICA EM HOVER (popup flutuante, ancorado no botão "Entrar
+     na Galeria") --- */
+  .galeria-ia-hint--popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 90vw);
+    background: rgba(10,10,8,0.94);
+    border: 1px solid rgba(200,146,42,0.3);
+    font-family: 'Raleway', sans-serif;
+    color: var(--texto);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding: 0.9rem 1.1rem;
+    opacity: 0;
+    transform: translate(-50%, 6px);
+    z-index: 9998;
+    pointer-events: none; /* nunca intercepta clique */
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
 </style>
 </head>
 <body>
@@ -229,7 +250,7 @@
         </div>
       </a>
 
-      <a class="gallery-card" href="galeria-ia.html" data-gallery-card>
+      <a class="gallery-card gallery-card--ia" href="galeria-ia.html" data-gallery-card>
         <div class="gallery-card-media">
           <img src="assets/images/capa-galeria-ia.jpg" alt="Galer.iA — experiência imersiva de poesia gerada por inteligência artificial" loading="lazy" />
           <div class="gallery-card-sponsor-banner">Apoio: Intelbras</div>
@@ -238,15 +259,14 @@
           <span class="gallery-card-tag">Experiência Imersiva</span>
           <h2 class="gallery-card-title">Galer.iA</h2>
           <p class="gallery-card-desc">
-            Escolha uma foto, revele o que ela desperta em você, e deixe que
-            a inteligência artificial escreva, na voz do Alfa, o poema que
-            só o seu olhar poderia inspirar.
+            Deixe a inteligência artificial escrever, na voz do Alfa, o poema
+            que só o seu olhar poderia inspirar.
           </p>
           <div class="gallery-card-meta">
             <span>· Deixe o i.Alfa criar um poema original pra você!</span>
           </div>
           <div class="gallery-card-footer">
-            <span class="btn-outline-amber">Entrar na Galeria</span>
+            <span class="btn-outline-amber" id="galeriaIaHoverBtn">Entrar na Galeria</span>
           </div>
         </div>
       </a>
@@ -270,6 +290,9 @@
       <p class="footer-copy">· UNIVALI ADS · 2026</p>
     </div>
   </footer>
+
+  <!-- Popup de dica da Galer.iA — filho direto do body, position:fixed calculado via JS a partir do botão "Entrar na Galeria" -->
+  <div class="galeria-ia-hint--popup" id="galeriaIaHintPopup">Ao entrar, escolha uma foto e descreva o que ela desperta em você — o i.Alfa transforma isso em um poema exclusivo. Você tem direito a dois poemas por visita.</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -307,6 +330,78 @@
     }, { threshold: 0.15 });
 
     if (cards.length) observer.observe(document.getElementById('hallGrid'));
+
+    // --- GALER.iA HINT — popup flutuante, ancorado no botão "Entrar na Galeria" ---
+    const iaBtn   = document.getElementById('galeriaIaHoverBtn');
+    const iaPopup = document.getElementById('galeriaIaHintPopup');
+    const MARGIN = 12; // respiro mínimo até a borda da viewport
+    const GAP = 10;    // distância entre o popup e o topo do botão
+    let popupVisible = false;
+
+    // Calcula e aplica a posição (fixed, relativa à viewport) a partir do
+    // getBoundingClientRect() do botão "Entrar na Galeria" da Galer.iA.
+    function positionPopup() {
+      if (!iaBtn || !iaPopup) return;
+      const btnRect = iaBtn.getBoundingClientRect();
+      const popupRect = iaPopup.getBoundingClientRect(); // largura é fixa via CSS, independe do top/left atual
+
+      let centerX = btnRect.left + btnRect.width / 2;
+      const topPos = btnRect.top - popupRect.height - GAP;
+
+      // Clamping horizontal: não deixa vazar pela esquerda/direita da viewport
+      const halfWidth = popupRect.width / 2;
+      if (centerX - halfWidth < MARGIN) {
+        centerX = halfWidth + MARGIN;
+      } else if (centerX + halfWidth > window.innerWidth - MARGIN) {
+        centerX = window.innerWidth - MARGIN - halfWidth;
+      }
+
+      iaPopup.style.left = centerX + 'px';
+      iaPopup.style.top = topPos + 'px';
+    }
+
+    function showPopup() {
+      if (!iaBtn || !iaPopup) return;
+      positionPopup();
+      iaPopup.style.transform = 'translate(-50%, 0)';
+      iaPopup.style.opacity = '1';
+      popupVisible = true;
+    }
+
+    function hidePopup() {
+      if (!iaPopup) return;
+      iaPopup.style.opacity = '0';
+      iaPopup.style.transform = 'translate(-50%, 6px)';
+      popupVisible = false;
+    }
+
+    if (iaBtn) {
+      // Hover (desktop)
+      iaBtn.addEventListener('mouseenter', showPopup);
+      iaBtn.addEventListener('mouseleave', hidePopup);
+
+      // Fallback para touch (sem hover real): primeiro toque no botão abre e
+      // bloqueia a navegação; toque de novo no botão (já aberto) segue o
+      // link normalmente; toque fora do botão fecha.
+      iaBtn.addEventListener('touchstart', (e) => {
+        if (window.matchMedia('(hover: hover)').matches) return;
+        if (!popupVisible) {
+          e.preventDefault();
+          showPopup();
+        }
+      });
+      document.addEventListener('touchstart', (e) => {
+        if (popupVisible && !iaBtn.contains(e.target)) {
+          hidePopup();
+        }
+      });
+    }
+
+    // Recalcular exige acompanhar scroll/resize continuamente — mais simples
+    // e mais barato é só fechar o popup, já que ele se reabre com um novo
+    // hover/toque na posição correta.
+    window.addEventListener('scroll', () => { if (popupVisible) hidePopup(); }, { passive: true });
+    window.addEventListener('resize', () => { if (popupVisible) hidePopup(); });
   </script>
 </body>
 </html>

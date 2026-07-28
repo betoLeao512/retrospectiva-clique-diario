@@ -20,9 +20,21 @@
 
 Categoria "EXPERIÊNCIA IMERSIVA". Texto definitivo do card (parágrafo principal):
 
-> "Escolha uma foto, revele o que ela desperta em você, e deixe que a inteligência artificial escreva, na voz do Alfa, o poema que só o seu olhar poderia inspirar."
+> "Deixe a inteligência artificial escrever, na voz do Alfa, o poema que só o seu olhar poderia inspirar."
 
-⚠️ A linha secundária do card ainda não foi corrigida — continua com o erro de digitação "Deixe o i.Alfa vai criar um poema original pra você!" (ver Pendências no CLAUDE.md principal).
+## Hint de entrada (Hall)
+
+Card da Galer.iA em `hall.html` tem um popup explicativo no hover do botão
+"Entrar na Galeria" (não no card inteiro), pra situar o visitante antes de entrar.
+
+- Trigger: `#galeriaIaHoverBtn` (botão), não o card
+- Posicionamento: `position: fixed`, calculado via JS (`getBoundingClientRect()`),
+  fecha em scroll/resize
+- Texto atual: "Ao entrar, escolha uma foto e descreva o que ela desperta em
+  você — o i.Alfa transforma isso em um poema exclusivo. Você tem direito a
+  dois poemas por visita."
+- Fallback touch: primeiro toque abre, segundo toque no botão navega, toque
+  fora fecha
 
 ## Convite de e-mail pós-poema (funcionalidade nova, ainda não implementada)
 
