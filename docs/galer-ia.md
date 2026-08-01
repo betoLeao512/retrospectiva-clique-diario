@@ -5,7 +5,7 @@
 ## Sorteio e rotação
 
 - 12 fotos sorteadas do banco total (todas as fotos de todas as galerias), usando **rotação controlada** — não puramente aleatório. O algoritmo prioriza as fotos com menor `vezesExibida`, sorteia dentro de um pool das menos exibidas, e incrementa o contador no Firestore a cada sorteio.
-- O sorteio acontece uma vez por visita e fica salvo em `sessionStorage` — reentrar na mesma sessão não sorteia de novo.
+- O sorteio acontece uma vez por visita e fica salvo em `sessionStorage.galeriaIaRotacao` — reentrar na mesma sessão não sorteia de novo. Formato salvo: array com os objetos completos das 12 fotos sorteadas (`{ id, arquivo, galeria, audioOriginalUrl, ativa, vezesExibida, vezesEscolhida }`, o mesmo shape da coleção `fotos`), não só os ids — necessário pra renderizar a grade e, futuramente, identificar a foto escolhida sem bater no Firestore de novo a cada re-entrada na mesma sessão.
 - Visitante pode escolher **até 2 fotos distintas** por visita.
 
 ## Estados de cada foto no grid
