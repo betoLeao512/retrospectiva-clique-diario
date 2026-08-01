@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Metadados das fotos usadas pela Galer.iA (sorteio/rotação).
+    // Leitura pública; escrita bloqueada de propósito — vezesExibida só
+    // pode ser incrementado por Cloud Function (pendente, ver docs/galer-ia.md).
+    match /fotos/{fotoId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Poemas gerados pelos visitantes — alimenta o Mural.
+    // Leitura pública; criação liberada com validação mínima de forma;
+    // sem update/delete pelo cliente (evita adulteração/apagamento).
+    match /poemas/{poemaId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['photoId', 'poemaTexto', 'timestamp', 'deviceId'])
+                    && request.resource.data.poemaTexto is string
+                    && request.resource.data.poemaTexto.size() < 2000;
+      allow update, delete: if false;
+    }
+
+    // Contatos opcionais (convite de e-mail pós-poema, ver docs/galer-ia.md).
+    // Só criação; exige aceitaContatoFuturo explícito (consentimento de receber
+    // futuras edições). duploOptIn (confirmação de e-mail) é campo separado,
+    // só passa a existir/valer depois do fluxo de confirmação — não validado
+    // aqui na criação. Sem leitura pelo cliente.
+    match /contatos/{contatoId} {
+      allow create: if request.resource.data.keys().hasAll(['email', 'aceitaContatoFuturo'])
+                    && request.resource.data.aceitaContatoFuturo is bool;
+      allow read, update, delete: if false;
+    }
+  }
+}

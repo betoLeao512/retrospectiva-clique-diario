@@ -60,11 +60,18 @@ coleção: contatos
   poemaTexto: "...",     // ou array, se forem 2 poemas
   audioUrl: "...",
   aceitaContatoFuturo: true/false,
+  duploOptIn: false,              // só relevante se aceitaContatoFuturo=true
+  tokenConfirmacao: null,          // gerado só quando aceitaContatoFuturo=true
   enviado: false,
   timestamp: serverTimestamp()
 }
 ```
 
 **Envio real:** Firestore sozinho não envia e-mail. Usar a extensão oficial **"Trigger Email" do Firebase** (observa a coleção `contatos`, dispara e-mail via provedor tipo SendGrid ao detectar documento novo). Configuração do provedor de e-mail é tarefa do Leao (conta/chaves), não de código.
+
+**Extensão nova — duplo opt-in por confirmação de e-mail (`duploOptIn`):** decisão recente, adicionada depois da primeira versão do schema acima. `aceitaContatoFuturo` e `duploOptIn` são dois campos complementares, não o mesmo conceito com nomes diferentes:
+- `aceitaContatoFuturo` — o consentimento em si, marcado pelo visitante no formulário (já documentado desde a primeira versão deste schema).
+- `duploOptIn` — mecanismo de confirmação: só passa a ser relevante quando `aceitaContatoFuturo = true`, e começa como `false`. O visitante entra na lista permanente de divulgação só depois de confirmar a intenção por um link de e-mail (`tokenConfirmacao`, gerado nesse momento); até lá, `duploOptIn` permanece `false` e o contato não deve ser tratado como confirmado para campanhas futuras.
+- Isso ainda não tem código de escrita implementado — fica para quando o convite de e-mail for de fato construído. A regra do Firestore (`firestore.rules`) já exige `aceitaContatoFuturo` na criação do documento; a validação/atualização de `duploOptIn` e `tokenConfirmacao` será tratada pelo fluxo de confirmação (provavelmente Cloud Function), ainda não implementado.
 
 **Pendência futura (não bloqueia o lançamento):** se a lista de `contatos` for usada para divulgação futura, será necessário oferecer um mecanismo de descadastro (direito de revogação de consentimento, LGPD).

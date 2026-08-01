@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>SEED — fotos (temporário, apagar depois de usar)</title>
+</head>
+<body style="font-family: monospace; background:#111; color:#eee; padding:2rem;">
+  <h1>Seed da coleção "fotos"</h1>
+  <p>
+    Popula o Firestore a partir de <code>galerias.json</code>. Rodar UMA vez.
+    Rodar de novo é seguro (sobrescreve os mesmos documentos com os mesmos
+    valores iniciais — não duplica, mas zera <code>vezesExibida</code>/
+    <code>vezesEscolhida</code> se já tiverem sido incrementados).
+  </p>
+  <button id="btnSeed" style="font-size:1.1rem; padding:0.6rem 1.2rem; cursor:pointer;">
+    Rodar seed
+  </button>
+  <pre id="log" style="margin-top:1.5rem; white-space:pre-wrap;"></pre>
+
+  <script type="module">
+    import { seedFotos } from './assets/js/seed-fotos.js';
+
+    const btn = document.getElementById('btnSeed');
+    const log = document.getElementById('log');
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      log.textContent = 'Rodando...\n';
+      try {
+        const total = await seedFotos();
+        log.textContent += `OK — ${total} fotos criadas/atualizadas em 'fotos'.\nConfira no Console do Firebase → Firestore → Data.`;
+      } catch (e) {
+        log.textContent += `ERRO: ${e.message}`;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
