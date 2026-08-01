@@ -32,7 +32,7 @@ export async function sortearRotacao() {
     pesosDisponiveis.splice(idx, 1);
   }
 
-  sessionStorage.setItem('galeriaIaRotacao', JSON.stringify(sorteadas.map(f => f.id)));
+  sessionStorage.setItem('galeriaIaRotacao', JSON.stringify(sorteadas));
   return sorteadas;
 }
 
