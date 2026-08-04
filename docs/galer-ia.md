@@ -6,7 +6,7 @@
 
 - 12 fotos sorteadas do banco total (todas as fotos de todas as galerias), usando **rotação controlada** — não puramente aleatório. O algoritmo prioriza as fotos com menor `vezesExibida`, sorteia dentro de um pool das menos exibidas, e incrementa o contador no Firestore a cada sorteio.
 - O sorteio acontece uma vez por visita e fica salvo em `sessionStorage.galeriaIaRotacao` — reentrar na mesma sessão não sorteia de novo. Formato salvo: array com os objetos completos das 12 fotos sorteadas (`{ id, arquivo, galeria, audioOriginalUrl, ativa, vezesExibida, vezesEscolhida }`, o mesmo shape da coleção `fotos`), não só os ids — necessário pra renderizar a grade e, futuramente, identificar a foto escolhida sem bater no Firestore de novo a cada re-entrada na mesma sessão.
-- Visitante pode escolher **até 2 fotos distintas** por visita.
+- Visitante pode gerar **até 2 poemas por dia** — a cota é por dia/dispositivo (`localStorage` + reforço server-side, ver "Cota diária" abaixo), não por visita/sessão. Reentrar na Galer.iA no mesmo dia não reseta a cota.
 
 ## Estados de cada foto no grid
 
@@ -15,6 +15,16 @@
 - Não escolhida, cota de 2 esgotada → mesmo comportamento das galerias temáticas (clique → expande → áudio original).
 - Sem monetização, sem créditos, sem votação — experiência 100% gratuita.
 - `vezesEscolhida` incrementado no Firestore quando o visitante gera um poema — alimenta um ranking de popularidade **interno**, não público, para análise pós-exposição.
+
+## Cota diária
+
+A cota de 2 poemas/dia é reservada **no servidor**, não só controlada no cliente. O `localStorage` (`galeriaIaData`, ver `assets/js/galer-ia-poemas.js`) ainda existe como atalho de UX — evita uma chamada de rede óbvia quando o limite já foi visivelmente atingido — mas quem decide de fato se a cota permite ou não gerar um novo poema é a Cloud Function `sentirFoto`, não o cliente.
+
+**Mecanismo:** `sentirFoto` reserva a cota numa transação atômica do Firestore, na coleção `cotasDiarias` (documento `{visitanteId}_{YYYY-MM-DD}`). A transação lê e escreve a contagem **antes de qualquer chamada paga** (Claude API, ElevenLabs) — se `count >= 2`, a function recusa o pedido (`resource-exhausted`) sem gastar nada. Fazer a leitura+escrita dentro da mesma transação (sem chamada de rede externa no meio) evita que duas chamadas simultâneas do mesmo `visitanteId` passem da checagem juntas e furem a cota.
+
+`visitanteId` é gerado no cliente (`crypto.randomUUID()`) e persistido em `localStorage`, mas é só um identificador — não é autenticação, e não é ele quem decide o limite; a decisão é sempre do servidor, com base no que está gravado em `cotasDiarias`.
+
+**`galer-ia-poemas.js` fica superado por essa arquitetura:** o controle 100% client-side que ele implementa (`podeGerarPoema()`/`registrarPoemaGerado()`) não é mais a fonte de verdade da cota — pode ser burlado via DevTools sem que isso afete o que o servidor de fato permite. Fica candidato a remoção/simplificação numa etapa futura (ver `docs/firestore-schema.md`), mantido por ora só como atalho de UX.
 
 ## Card no Hall (`hall.html`)
 
