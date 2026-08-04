@@ -1,0 +1,19 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Áudio dos poemas gerados pela Galer.iA (narração ElevenLabs).
+    // Leitura pública (decisão confirmada — poemas já são públicos no
+    // Mural); escrita só via Admin SDK (Cloud Function sentirFoto),
+    // que ignora estas regras — bloqueada para o cliente.
+    match /poemas-audio/{arquivo} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Qualquer outro caminho: bloqueado por padrão.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

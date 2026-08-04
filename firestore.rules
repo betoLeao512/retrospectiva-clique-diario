@@ -15,10 +15,17 @@ service cloud.firestore {
     // sem update/delete pelo cliente (evita adulteração/apagamento).
     match /poemas/{poemaId} {
       allow read: if true;
-      allow create: if request.resource.data.keys().hasAll(['photoId', 'poemaTexto', 'timestamp', 'deviceId'])
+      allow create: if request.resource.data.keys().hasAll(['fotoId', 'poemaTexto', 'timestamp', 'visitanteId'])
                     && request.resource.data.poemaTexto is string
                     && request.resource.data.poemaTexto.size() < 2000;
       allow update, delete: if false;
+    }
+
+    // Cota diária de poemas por visitante (2/dia) — validada e escrita
+    // só pela Cloud Function sentirFoto via Admin SDK. Sem leitura nem
+    // escrita pelo cliente (evita manipulação via DevTools).
+    match /cotasDiarias/{cotaId} {
+      allow read, write: if false;
     }
 
     // Contatos opcionais (convite de e-mail pós-poema, ver docs/galer-ia.md).
