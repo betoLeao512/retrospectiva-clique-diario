@@ -1,6 +1,6 @@
 # Firebase Firestore — schema
 
-Duas coleções usadas no projeto: `fotos` (metadados de cada foto ativa, usada pela Galer.iA para sorteio) e `poemas` (alimenta o Mural).
+Três coleções usadas no projeto: `fotos` (metadados de cada foto ativa, usada pela Galer.iA para sorteio), `poemas` (alimenta o Mural) e `cotasDiarias` (controle server-side do limite de 2 poemas/dia por visitante).
 
 ```
 coleção: fotos
@@ -17,16 +17,22 @@ coleção: fotos
 coleção: poemas
 {
   id: auto,
-  photoId: "foto-13",
-  emocaoSelecionada: "texto ou tag da emoção escolhida" | null,
+  fotoId: "foto-13",
+  emocaoSelecionada: "texto ou tag da emoção escolhida",
   textoLivre: "texto livre declarado pelo visitante" | null,
   poemaTexto: "...",
   audioUrl: "..." | null,
-  deviceId: "...",
+  visitanteId: "...",
   timestamp: serverTimestamp()
+}
+
+coleção: cotasDiarias
+{
+  id: "{visitanteId}_{YYYY-MM-DD}",
+  count: 0
 }
 ```
 
-Campo `tags` (metadado curado por tema/elementos/local) foi removido do schema de `fotos` por ora — não existe fonte de dado pra isso ainda; pode ser adicionado no futuro se quiserem currar manualmente. Campo `ativa` foi adicionado — necessário pra query de sorteio da Galer.iA (`where('ativa', '==', true)`, ver `docs/galer-ia.md`). Em `poemas`, o antigo campo único `impressao` foi dividido em `emocaoSelecionada`/`textoLivre`, e `deviceId` foi adicionado (controle de limite de 2 poemas por dia/dispositivo, ver `docs/galer-ia.md`).
+Campo `tags` (metadado curado por tema/elementos/local) foi removido do schema de `fotos` por ora — não existe fonte de dado pra isso ainda; pode ser adicionado no futuro se quiserem currar manualmente. Campo `ativa` foi adicionado — necessário pra query de sorteio da Galer.iA (`where('ativa', '==', true)`, ver `docs/galer-ia.md`). Em `poemas`, o antigo campo único `impressao` foi dividido em `emocaoSelecionada`/`textoLivre`; o campo antigo `deviceId` (controle client-side via `localStorage`, `galer-ia-poemas.js`) foi substituído por `visitanteId` — a cota de 2 poemas/dia passa a ser validada e reservada no servidor, pela Cloud Function `sentirFoto` (transação em `cotasDiarias`, ver `docs/galer-ia.md`), não só no cliente. `galer-ia-poemas.js` fica candidato a remoção/simplificação numa etapa futura — ainda escreve `photoId`/`deviceId` (nomes antigos), então não deve ser usado como referência de schema atual.
 
-**Regras de segurança:** ver `firestore.rules` na raiz do repositório (leitura pública em `fotos`/`poemas`, escrita em `fotos` sempre bloqueada, criação em `poemas` validada por forma dos campos, sem update/delete pelo cliente em nenhuma coleção). Aplicar manualmente no Console do Firebase (Firestore → Rules) — não há deploy automatizado via CLI configurado ainda.
+**Regras de segurança:** ver `firestore.rules`/`storage.rules` na raiz do repositório (leitura pública em `fotos`/`poemas`, escrita em `fotos` sempre bloqueada, criação em `poemas` validada por forma dos campos, `cotasDiarias` sem leitura/escrita pelo cliente — só via Admin SDK nas Cloud Functions, que ignoram as regras). Aplicar via `firebase deploy --only firestore:rules,storage` no terminal — `firebase.json` já aponta pros dois arquivos.
